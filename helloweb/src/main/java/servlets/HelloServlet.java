@@ -13,10 +13,10 @@ public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
+		response.setContentType("text/html; charset=utf-8");  
 		PrintWriter pw = response.getWriter();
 		
-		pw.println("<h1>Hello World</h1>");
+		pw.println("Hello World");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
