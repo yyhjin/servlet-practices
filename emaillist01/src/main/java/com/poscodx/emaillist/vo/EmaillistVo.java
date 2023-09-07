@@ -1,4 +1,4 @@
-package java.com.poscodx.emaillist.vo;
+package com.poscodx.emaillist.vo;
 
 public class EmaillistVo {
 	private Long no;

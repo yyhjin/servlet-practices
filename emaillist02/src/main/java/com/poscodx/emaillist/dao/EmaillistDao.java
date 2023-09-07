@@ -1,21 +1,19 @@
-package com.poscodx.guestbook.dao;
+package com.poscodx.emaillist.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.poscodx.guestbook.vo.GuestbookVo;
+import com.poscodx.emaillist.vo.EmaillistVo;
 
-public class GuestbookDao {
+public class EmaillistDao {
 
-	public List<GuestbookVo> findAll() {
-		List<GuestbookVo> result = new ArrayList<>();
+	public List<EmaillistVo> findAll() {
+		List<EmaillistVo> result = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -24,30 +22,30 @@ public class GuestbookDao {
 			conn = getConnection();
 			
 			String sql =
-					"select no, name, contents, reg_date "
-					+ "from guestbook "
-					+ "order by reg_date desc";
+					"select no, first_name, last_name, email "
+					+ "from emaillist "
+					+ "order by no asc";
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				int no = rs.getInt(1);
-				String name = rs.getString(2);
-				String contents = rs.getString(3);
-				String regDate = rs.getString(4);
+				Long no = rs.getLong(1);
+				String firstName = rs.getString(2);
+				String lastName = rs.getString(3);
+				String email = rs.getString(4);
 				
-				GuestbookVo vo = new GuestbookVo();
+				EmaillistVo vo = new EmaillistVo();
 				vo.setNo(no);
-				vo.setName(name);
-				vo.setContents(contents);
-				vo.setRegDate(regDate);
+				vo.setFirstName(firstName);
+				vo.setLastName(lastName);
+				vo.setEmail(email);
 				
 				result.add(vo);
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Guestbook Select error: " + e);
+			System.out.println("error: " + e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -67,53 +65,8 @@ public class GuestbookDao {
 		return result;
 	}
 
-	public String findPasswordByNo(int no) {
-		String result = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			conn = getConnection();
-			
-			String sql =
-					"select password "
-					+ "from guestbook "
-					+ "where no = ?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, no);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				String password = rs.getString(1);
-				
-				result = password;
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("Guestbook Select error: " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
 	
-	public void insert(GuestbookVo vo) {
+	public void insert(EmaillistVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -122,23 +75,19 @@ public class GuestbookDao {
 			conn = getConnection();
 			
 			String sql =
-					"insert into guestbook(name, password, contents, reg_date) "
-					+ "values(?, ?, ?, ?)";
+					"insert into emaillist "
+					+ "values(null, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");			
-			String regDate = sdf.format(new Date());
-			vo.setRegDate(regDate);
+				
 
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getPassword());
-			pstmt.setString(3, vo.getContents());
-			pstmt.setString(4, vo.getRegDate());
+			pstmt.setString(1, vo.getFirstName());
+			pstmt.setString(2, vo.getLastName());
+			pstmt.setString(3, vo.getEmail());
 			
 			rs = pstmt.executeQuery();
 			
 		} catch (SQLException e) {
-			System.out.println("Guestbook Insert error: " + e);
+			System.out.println("error: " + e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -157,7 +106,8 @@ public class GuestbookDao {
 		
 	}
 
-	public void deleteByNo(String no) {
+
+	public void deleteByEmail(String email) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -166,16 +116,16 @@ public class GuestbookDao {
 			conn = getConnection();
 			
 			String sql =
-					"delete from guestbook "
-					+ "where no = ?";
+					"delete from emaillist "
+					+ "where email = ?";
 			pstmt = conn.prepareStatement(sql);
 				
-			pstmt.setString(1, no);
+			pstmt.setString(1, email);
 			
 			rs = pstmt.executeQuery();
 			
 		} catch (SQLException e) {
-			System.out.println("Guestbook Delete error: " + e);
+			System.out.println("error: " + e);
 		} finally {
 			try {
 				if (rs != null) {

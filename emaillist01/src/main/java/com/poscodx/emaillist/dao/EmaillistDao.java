@@ -1,6 +1,5 @@
-package java.com.poscodx.emaillist.dao;
+package com.poscodx.emaillist.dao;
 
-import java.com.poscodx.emaillist.vo.EmaillistVo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.poscodx.emaillist.vo.EmaillistVo;
 
 public class EmaillistDao {
 
