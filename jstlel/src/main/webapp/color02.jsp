@@ -1,7 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@page import="servlets.UserVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -10,9 +9,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h4>JSTL Test: forEach</h4>
-	<c:forEach items="${list}" var="vo" varStatus="status">
-		<h6>[${status.count}:${status.index}] ${vo.no} : ${vo.name}</h6>
-	</c:forEach>
+	<c:choose>
+		<c:when test="${param.c eq 'red' }">
+			<h1 style="color:red"> Hello World</h1>
+		</c:when>
+		<c:when test="${param.c eq 'blue' }">
+			<h1 style="color:blue"> Hello World</h1>
+		</c:when>
+		<c:when test="${param.c eq 'green' }">
+			<h1 style="color:green"> Hello World</h1>
+		</c:when>
+		<c:otherwise>
+			<h1> Hello World</h1>		
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>
